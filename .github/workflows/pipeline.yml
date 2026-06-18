@@ -145,7 +145,7 @@ jobs:
         run: |
           sh 'src/main/scripts/smoketest.sh'
 
-  testeProd: 
+  testeProdPerformance: 
       runs-on: ubuntu-latest 
       needs: smokeTestProd
       if: github.ref == 'refs/heads/main' 
