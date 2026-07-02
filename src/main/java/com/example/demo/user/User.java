@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -11,7 +12,9 @@ import lombok.Data;
 
 @Entity
 @Data
-public class User {
+public class User implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +31,5 @@ public class User {
   private String role;
 
   private LocalDateTime lastUpdated;
-  
+
 }

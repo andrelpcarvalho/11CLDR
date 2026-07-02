@@ -13,9 +13,6 @@ import lombok.Data;
 @Data
 public class AppUser implements UserDetails {
 
-  /**
-   *
-   */
   private static final long serialVersionUID = 1L;
 
   User user;
@@ -58,5 +55,5 @@ public class AppUser implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
-  
+
 }

@@ -37,7 +37,7 @@ class ExemploVulnerabilidadeTest {
     void testUsesPlaceholder() {
         String classSource = getExemploVulnerabilidadeSource();
         
-        assertTrue(classSource.contains("prepareStatement(\"SELECT * FROM usuarios WHERE nome = ?\")"),
+        assertTrue(classSource.contains("prepareStatement(\"SELECT nome, email FROM usuarios WHERE nome = ?\")"),
                 "A classe deve usar PreparedStatement com placeholder (?)");
         
         assertTrue(classSource.contains("statement.setString(1, userInput)"),

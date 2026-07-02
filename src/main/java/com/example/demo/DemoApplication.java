@@ -1,6 +1,7 @@
 package com.example.demo;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 import com.example.demo.configuration.AppUser;
 import com.example.demo.configuration.LoggedInUser;
@@ -44,7 +45,7 @@ public class DemoApplication {
 
 	@GetMapping("/what-is-the-time")
 	String time(){
-		return new Date().toString();
+		return LocalDateTime.now(ZoneOffset.UTC).toString();
 	}
 	
 	@GetMapping("/devops")
@@ -72,4 +73,4 @@ public class DemoApplication {
 		return "Turma UFSCAR 2026";
 	}
 	
-}	
+}

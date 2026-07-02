@@ -3,15 +3,17 @@ package com.example.demo.user;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserAuthorizationService {
 
-  @Autowired
-  UserRepository userRepository;
-  
+  private final UserRepository userRepository;
+
+  public UserAuthorizationService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
+
   public boolean canUpdate(long loggedInUser, long userId){
     if(loggedInUser != userId)
       return false;

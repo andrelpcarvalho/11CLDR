@@ -1,37 +1,26 @@
-import java.util.Date;
-
-import com.example.demo.configuration.AppUser;
-import com.example.demo.configuration.LoggedInUser;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+package com.example.demo;
 
 import java.sql.*;
+
 public class ExemploVulnerabilidade {
-
     public static void main(String[] args) {
-        String userInput = args[0]; // Supondo que userInput seja a entrada do usuário
-        
+        String userInput = args[0];
 
+        String url = System.getenv("DB_URL");       // ex: jdbc:mysql://localhost:3306/banco
+        String user = System.getenv("DB_USER");
+        String pass = System.getenv("DB_PASSWORD");
 
+        try (Connection connection = DriverManager.getConnection(url, user, pass);
+             PreparedStatement statement = connection.prepareStatement("SELECT nome, email FROM usuarios WHERE nome = ?")) {
 
-        
-        // Conexão com o banco de dados (apenas para fins de exemplo)
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/banco", "usuario", "senha")) {
-            
-            // Usando PreparedStatement para prevenir SQL Injection
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuarios WHERE nome = ?");
             statement.setString(1, userInput);
-            ResultSet resultSet = statement.executeQuery();
 
-            // Processamento dos resultados
-            while (resultSet.next()) {
-                String nome = resultSet.getString("nome");
-                String email = resultSet.getString("email");
-                System.out.println("Nome: " + nome + ", Email: " + email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String nome = resultSet.getString("nome");
+                    String email = resultSet.getString("email");
+                    System.out.println("Nome: " + nome + ", Email: " + email);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
