@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.http.MediaType;
+
 @SpringBootApplication
 @RestController
 public class DemoApplication {
@@ -72,5 +74,24 @@ public class DemoApplication {
 	String UFSCAR(){
 		return "Turma UFSCAR 2026";
 	}
+
+	@GetMapping(value = "/FIAP", produces = MediaType.TEXT_HTML_VALUE)
+	String FIAP(){
+		return "11CLDR / devops ci/cd /Profº. Fabiano da Silva Carneiro<br>"
+			+ "Gregory Dias Borges Gonçalves - RM368346<br>"
+			+ "Kleber dos Santos Guerra - RM369570<br>"
+			+ "Luís Rodrigo Melo Siqueira - RM367616<br>"
+			+ "Phelip logan Pereira Alves - RM368507<br>"
+			+ "André Luís Pires Carvalho - RM368115";
+	}
 	
+	@GetMapping(value = "/fiap", produces = MediaType.TEXT_HTML_VALUE)
+	String fiap(){
+		return "11CLDR / devops ci/cd /Profº. Fabiano da Silva Carneiro<br>"
+			+ "Gregory Dias Borges Gonçalves - RM368346<br>"
+			+ "Kleber dos Santos Guerra - RM369570<br>"
+			+ "Luís Rodrigo Melo Siqueira - RM367616<br>"
+			+ "Phelip logan Pereira Alves - RM368507<br>"
+			+ "André Luís Pires Carvalho - RM368115";
+	}
 }
