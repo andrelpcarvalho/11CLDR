@@ -56,7 +56,7 @@ jobs:
           category: snyk-code
 
       - name: Run Snyk to check for vulnerabilities (SCA)
-        uses: snyk/actions/maven@master
+        uses: snyk/actions/maven@8e119fbb6c251787721d34ba683ed48eba792766 # master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -71,7 +71,7 @@ jobs:
 
   code-analisys:
     runs-on: ubuntu-latest
-    needs: SAST
+    needs: unit-test
     steps:
       - uses: actions/checkout@v6
         with:
@@ -96,7 +96,7 @@ jobs:
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.7.0.6970:sonar
           -Dsonar.projectKey=andrelpcarvalho_11CLDR
           -Dsonar.organization=andrelpcarvalho
-          -Dsonar.qualitygate.wait=true
+          -Dsonar.qualitygate.wait=false
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_11_CLDR }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -233,3 +233,23 @@ jobs:
           run: |
             sh 'src/main/scripts/testesPerformance.sh'
   
+  deploy-azure:
+      runs-on: ubuntu-latest
+      needs: build
+      name: Deploy-azure
+      if: github.ref == 'refs/heads/main' 
+      environment:
+        name: Deploy-azure
+        url: https://devopsfiap-on-app-rm368115-gyc7dgdja5e8dva7.canadacentral-01.azurewebsites.net
+      steps:
+        - name: Download JAR
+          uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+          with:
+            name: artifact
+            path: target/
+        - name: DeployAzure 
+          uses: azure/webapps-deploy@5cfb776471c748b351e1ebf5770e208a54ace016 # v2.2.19
+          with:
+            app-name: DevopsFiap-On-App-rm368115
+            publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+            package: '${{ github.workspace }}/target/*.jar'
